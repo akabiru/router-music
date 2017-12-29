@@ -4,8 +4,19 @@ import { Route, Redirect } from 'react-router-dom';
 
 import { client } from '../Client';
 
-const PrivateRoute = () => {
-
-};
+const PrivateRoute = ({component, ...otherProps}) => (
+  <Route
+    {...otherProps}
+    render={props => (
+      client.isLoggedIn() ? (
+        React.createElement(component, props)
+      ) : (
+        <Redirect
+          to={{ pathname: '/login' }}
+        />
+      )
+    )}
+  />
+)
 
 export default PrivateRoute;
